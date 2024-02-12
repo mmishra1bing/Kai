@@ -1,0 +1,77 @@
+{% extends 'backend/main.html' %}
+
+{% block content %}
+
+<style>
+    h1,h5, p{
+        text-align: center;
+    }
+    .btn{
+        width: 100%;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); 
+        padding: 0, 20px, 0, 20px;
+    }
+    .card-title{
+        color: #000;
+    }
+    /* Add more CSS rules here */
+</style>
+
+<div class="row">
+    <div class="col" ><h1>Item Dashoard</h1></div>
+</div>
+<div class="row">
+    <div class="col"><p>All Items</p></div>
+</div>
+
+<div class="row">
+	<div class="col">
+		<div class="col-md">
+			<div class="card text-center text-white  mb-3" id="orders-delivered">
+				<div class="card-header">
+					<h5 class="card-title">New Products</h5>
+				</div>
+				<div class="card-body">
+					<a class="btn btn-outline-success" href="{% url 'CreateProduct' %}">Create a New
+						Product</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body ml-3 mr-3">
+			<h5>Products</h5>
+		</div>
+		<div class="card card-body ml-3 mr-3">
+			<table class="table">
+				<tr>
+					<th>Sku</th>
+					<th>Name</th>
+					<th>Tags</th>
+					<th>Category</th>
+					<th>Instock_Sttus</th>
+					<th>Available_stock</th>
+					<!-- <th>Remove</th> -->
+
+
+				</tr>
+				{% for item in items %}
+				<tr>
+					<td>{{ item.nam }}</td>
+					<td>{{ item.name }}</td>
+					<td>{{ item.tags }}</td>
+					<td>{{ item.category }}</td>
+					<td>{{ item.price }}</td>
+					<td><a href="{% url 'UpdateProduct' product.id %}" class="btn btn-info">Update</a></td>
+
+				</tr>
+
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+</div>
+{% endblock %}
