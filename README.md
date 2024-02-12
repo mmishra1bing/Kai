@@ -44,7 +44,90 @@ python manage.py runserver
 
 ## API Documentation
 
-The API documentation includes detailed instructions on how to consume the endpoints. You can find it [here](link_to_documentation).
+### User Endpoints
+
+#### Register User
+
+Registers a new user.
+
+- URL: `/register/`
+- Method: `POST`
+- Request Body:
+  - `username` (string, required): The username of the new user.
+  - `password1` (string, required): The password of the new user.
+  - `password2` (string, required): Confirmation of the password.
+
+#### Login User
+
+Logs in an existing user.
+
+- URL: `/`
+- Method: `POST`
+- Request Body:
+  - `username` (string, required): The username of the user.
+  - `password` (string, required): The password of the user.
+
+---
+
+### Product Endpoints
+
+#### List Products
+
+Retrieves a list of products.
+
+- URL: `/product/`
+- Method: `GET`
+- Query Parameters:
+  - `search_query` (string, optional): Search query to filter products.
+  - `category` (string, optional): Filter products by category.
+  - `stock_status` (float, optional): Filter products by stock status.
+  - `sort_by` (string, optional): Sort products by a field.
+
+#### Create Product
+
+Creates a new product.
+
+- URL: `/CreateProduct/`
+- Method: `POST`
+- Request Body:
+  - `sku` (string, required): The SKU of the product.
+  - `name` (string, required): The name of the product.
+  - `category` (string, required): The category of the product.
+  - `tags` (string, required): The tags associated with the product.
+  - `stock_status` (float, required): The stock status of the product.
+  - `available_stock` (float, required): The available stock of the product.
+
+---
+
+### Password Reset Endpoints
+
+#### Request Password Reset
+
+Sends a password reset email to the user.
+
+- URL: `/reset_password/`
+- Method: `GET`
+
+#### Confirm Password Reset
+
+Confirms the password reset request.
+
+- URL: `/reset/<uidb64>/<token>/`
+- Method: `GET`
+- Path Parameters:
+  - `uidb64` (string, required): User ID encoded in base64.
+  - `token` (string, required): Token for password reset.
+
+#### Complete Password Reset
+
+Completes the password reset process.
+
+- URL: `/reset_password_complete/`
+- Method: `GET`
+
+---
+
+This documentation outlines all the endpoints in this application, along with their corresponding URLs, methods, parameters, and request/response formats. 
 
 ## Unit Tests
 
