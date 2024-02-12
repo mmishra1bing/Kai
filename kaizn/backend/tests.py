@@ -48,6 +48,34 @@ class UserViewsTestCase(TestCase):
         self.assertFalse(response.context['user'].is_authenticated)
         self.assertContains(response, "Username OR Password is incorrect!")
 
+#UNIT_TESTCASE FOR PASSWORDS
+class PasswordResetViewTestCase(TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_password_reset_view(self):
+        response = self.client.get(reverse('reset_password'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'backend/password_reset.html')
+
+    def test_password_reset_sent_view(self):
+        response = self.client.get(reverse('password_reset_done'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'backend/password_reset_sent.html')
+
+    def test_password_reset_confirm_view(self):
+        # Assuming we have a user in the database
+        user = User.objects.create_user(username='testuser', email='test@example.com', password='testpassword')
+        # Simulate a password reset request
+        response = self.client.get(reverse('password_reset_confirm', args=['uidb64', 'token']))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'backend/password_reset_form.html')
+
+    def test_password_reset_complete_view(self):
+        response = self.client.get(reverse('password_reset_complete'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'backend/password_reset_done.html')
+
 
 #UNIT_TESTCASE FOR DASHBOARD
 
@@ -65,12 +93,12 @@ class ItemModelTestCase(TestCase):
         self.assertEqual(len(searched_items), 1)
         self.assertEqual(searched_items[0].name, 'Item 1')
 
-    # def test_filter_items(self):
-    #     # Test filter functionality
-    #     filtered_items = Item.objects.filter(category='Category A')
-    #     self.assertEqual(len(filtered_items), 2)
-    #     self.assertEqual(filtered_items[0].name, 'Item 1')
-    #     self.assertEqual(filtered_items[1].name, 'Item 3')
+    def test_filter_items(self):
+        # Test filter functionality
+        filtered_items = Item.objects.filter(category='Category A')
+        self.assertEqual(len(filtered_items), 2)
+        self.assertEqual(filtered_items[0].name, 'Item 1')
+        self.assertEqual(filtered_items[1].name, 'Item 3')
         
     def test_stock_status_filter(self):
         # Test filtering items by stock status
@@ -92,33 +120,44 @@ class ItemModelTestCase(TestCase):
         self.assertEqual(sorted_items[3].name, 'Item 4')
 
 
-# class AddItemViewTest(TestCase):
-#     def setUp(self):
-#         self.client = Client()
 
-#     def test_add_item_view_POST(self):
-#         # Test POST request to add a new item
-#         data = {
-#             'name': 'New Item',
-#             'sku': 'SKU006',
-#             'category': 'Category D',
-#             'tags': 'tag5, tag6',
-#             'stock_status': 50.0,
-#             'available_stock': 4.0,
-#         }
-#         response = self.client.post(reverse('CreateProduct'), data=data)
-        
-#         # Check if item is added to the database
-#         self.assertTrue(Item.objects.filter(name='New Item').exists())
-        
-#         # Check if user is redirected to the item dashboard upon successful addition
-#         self.assertEqual(response.status_code, 302)
-#         self.assertEqual(response.url, reverse('products'))
+class CreateProductViewTestCase(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.client.login(username='testuser', password='testpassword')
+        self.create_product_url = reverse('CreateProduct')
 
-#     def test_add_item_view_invalid_data_POST(self):
+    def test_create_product_view_GET(self):
+        response = self.client.get(self.create_product_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'backend/create_product.html')
+
+    def test_create_product_view_POST(self):
+        initial_item_count = Item.objects.count()
+        form_data = {
+            'sku': 'SKU001',
+            'name': 'New Product',
+            'category': 'Bundles',
+            'tags': 'tag15',
+            'stock_status': 10.0,
+            'available_stock': 5.0,
+        }
+        response = self.client.post(self.create_product_url, form_data)
         
-#         # Check that the item is not added to the database
-#         self.assertFalse(Item.objects.filter(name='New Item').exists())
+        # Check if the product is added to the database
+        self.assertEqual(Item.objects.count(), initial_item_count + 1)
+        new_product = Item.objects.last()
+        self.assertEqual(new_product.sku, 'SKU001')
+        self.assertEqual(new_product.name, 'New Product')
+        self.assertEqual(new_product.category, 'Bundles')
+        self.assertEqual(new_product.tags, 'tag15')
+        self.assertEqual(new_product.stock_status, 10.0)
+        self.assertEqual(new_product.available_stock, 5.0)
+        
+        # Check if the view redirects to the 'products' page upon successful product creation
+        self.assertRedirects(response, reverse('products'))
+
         
 
 
