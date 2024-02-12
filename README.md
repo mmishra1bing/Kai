@@ -40,7 +40,7 @@ cd kaizn
 python manage.py runserver
 ````````````````````````````````````````````````````
 
-7. Access the API endpoints at `http://localhost:8000`
+7. Access the API endpoints at `http://localhost:8000/`
 
 ## API Documentation
 
