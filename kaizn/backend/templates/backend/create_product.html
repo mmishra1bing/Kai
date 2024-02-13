@@ -1,16 +1,59 @@
 {% extends 'backend/main.html' %}
 {% block content %}
-
 <br>
-<div class="row">
+<div class="row justify-content-center">
     <div class="col-md-6">
-        <div class="card card-body ml-3">
-            <form action="" method="POST">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <hr>
-                <input class="btn btn-primary" type="submit" name="Submit">
-            </form>
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Add New Item</h5>
+            </div>
+            <div class="card-body">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                        <label for="id_name" class="col-sm-3 col-form-label">Name:</label>
+                        <div class="col-sm-9">
+                            {{ form.name }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_sku" class="col-sm-3 col-form-label">Sku:</label>
+                        <div class="col-sm-9">
+                            {{ form.sku }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_category" class="col-sm-3 col-form-label">Category:</label>
+                        <div class="col-sm-9">
+                            {{ form.category }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_tags" class="col-sm-3 col-form-label">Tags:</label>
+                        <div class="col-sm-9">
+                            {{ form.tags }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_stock_status" class="col-sm-3 col-form-label">Stock Status:</label>
+                        <div class="col-sm-9">
+                            {{ form.stock_status }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="id_available_stock" class="col-sm-3 col-form-label">Available Stock:</label>
+                        <div class="col-sm-9">
+                            {{ form.available_stock }}
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
