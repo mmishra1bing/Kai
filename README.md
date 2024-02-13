@@ -8,7 +8,7 @@ To set up and run the application, follow these steps:
 
 1. **Clone this repository to your local machine:**
 ````````````````````````````````````````````````````
-git clone <repository_url>
+git clone [<repository_url>](https://github.com/mmishra1bing/Kai.git)
 ````````````````````````````````````````````````````
 
 2. **Navigate into the project directory:**
