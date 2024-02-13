@@ -8,12 +8,12 @@ To set up and run the application, follow these steps:
 
 1. **Clone this repository to your local machine:**
 ````````````````````````````````````````````````````
-git clone [<repository_url>](https://github.com/mmishra1bing/Kai.git)
+git clone https://github.com/mmishra1bing/Kai.git
 ````````````````````````````````````````````````````
 
 2. **Navigate into the project directory:**
 ````````````````````````````````````````````````````
-cd <project_directory>
+cd Kai
 ````````````````````````````````````````````````````
 
 3. **Create and activate a virtual environment:**
